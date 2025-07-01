@@ -1,0 +1,5 @@
+# Gradle/Kotlin build logic
+/build.gradle            @your-team-handle
+/app/**                  @android-devs
+# GitHub Actions
+/.github/workflows/*     @devops
