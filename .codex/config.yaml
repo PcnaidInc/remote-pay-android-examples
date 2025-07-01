@@ -1,0 +1,33 @@
+# Default OpenAI / Gemini CLI settings for this repo
+# --------------------------------------------------
+
+# The LLM provider to hit when no --provider flag is given
+provider: openai            # other options: azure_openai, gemini
+
+# Primary model; every agent/test inherits this unless overridden
+model: gpt-o4-mini
+
+# Optional secondary model used for quick lint / embed jobs
+embedding_model: text-embedding-3-small
+
+# Token + endpoint env-var names (never put secrets in repo!)
+env:
+  api_key_var: {$OPENAI_API_KEY}
+  endpoint_var: {$OPENAI_ENDPOINT}   # used only for Azure/OpenAI private clouds
+
+# Per-command defaults
+cli_defaults:
+  temperature: 0.3
+  max_tokens: 2048
+  format: markdown   # json|text|markdown
+  timeout_seconds: 60
+
+# Repo-specific ignore list (globs); matches STYLEGUIDE section
+ignore_patterns:
+  - ".git/**"
+  - ".venv/**"
+  - "docs/_build/**"
+  - "**/*.svg"
+
+# Fun flag borrowed from your Gemini schema
+have_fun: false
