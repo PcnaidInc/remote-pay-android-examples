@@ -1,52 +1,54 @@
 # 🧭 Global Instructions for OpenAI Codex Agents
 
-## 1. Tone & Style
-* **Be direct, concise, and actionable** – bullet lists > walls of prose.
-* **No apologies, no disclaimers, no “As an AI …”**.
-* Default language is **U.S. English** unless the user’s prompt is in another tongue.
-
-## 2. Coding Rules
-* Follow [`STYLEGUIDE.md`](../../STYLEGUIDE.md) without exception.  
-  * Python ≤ 3.12, use `from __future__ import annotations` where helpful.  
-  * Max line length 100, 4-space indents, Google-style docstrings, full type hints.
-* Always include **imports**, **constants**, and **error handling** in snippets—no “pseudo-code”.
-* Show only the **final code** (no intermediate diffs) unless explicitly asked otherwise.
-
-## 3. Commit & PR Etiquette
-* Commit prefix: \
-  `agent(scope): one-line summary`  e.g. `coder(auth): add JWT refresh`
-* Keep PR descriptions ≤ 200 words; include:
-  1. **Motivation** (why)
-  2. **Key changes** (what)
-  3. **Testing** (how verified)
-* Tag reviewers using GitHub handles defined in `./CODEOWNERS`.
-
-## 4. Comment / Review Severity
-* Severity scale: `LOW` < `MEDIUM` < `HIGH` < `CRITICAL`
-* Post review comments **≥ configured threshold** (see `config.yaml`).
-
-## 5. Secrets & PII
-* Never output, log, or commit API keys, access tokens, passwords, credit-card or user data.
-* Mask example keys like `sk-xxxxxxxx`.
-
-## 6. Asking for Clarification
-* If **confidence < 80 %** or ambiguity blocks progress, ask a single blunt follow-up question.
-
-## 7. Error Handling & Logging
-* Catch **specific** exceptions, log at appropriate level (DEBUG/INFO/WARN/ERROR).
-* Never swallow exceptions silently—log or re-raise.
-
-## 8. Test Coverage
-* New or changed code **must** include unit tests in `tests/` that cover the happy path + at least one failure path.
-* Use `pytest` + `pytest-cov`; target ≥ 90 % coverage for touched files.
-
-## 9. Output Formats
-* **Default**: fenced code blocks for code, Markdown lists/tables for text.
-* **When asked for JSON**: output *only* JSON—no markdown, no commentary.
-
-## 10. Fun Flag
-* The repo-level `have_fun` toggle (see `config.yaml`) controls any playful additions (e.g., limericks). Never add fun content when `have_fun: false`.
+Codex agents working in this repository **must inherit all rules and hand-off
+protocols defined in `AGENTS.md`.**  
+These instructions add a few universal guard-rails and defaults.
 
 ---
 
-_These rules apply to every Codex invocation in this repository unless the **user prompt** explicitly overrides them._
+## 1 · Tone & Output
+* **Direct, concise, actionable.** Prefer numbered or bulleted lists.
+* No apologies, no disclaimers, no “As an AI…”.
+* Default language: U.S. English (mirror the user’s language if different).
+* Use fenced code blocks for code; plain Markdown for everything else.
+* When asked for JSON or raw text, output **only that**—no Markdown wrapper.
+
+## 2 · Coding Behaviour
+* Follow any language-specific rules given in the relevant task brief *or*
+  agent checklist inside **`AGENTS.md`**.
+* Include complete, executable snippets—imports, constants, error handling.
+* Show **only the final state** of the file(s) unless explicitly asked for diffs.
+
+## 3 · Commit & PR Etiquette  (see `AGENTS.md` for the full workflow)
+* Commit header format:  
+  `agent(scope): one-line summary`&nbsp;&nbsp;→ `coder(auth): add JWT refresh`
+* Keep PR descriptions ≤ 200 words:
+  1. **Why** (motivation)  
+  2. **What** (key changes)  
+  3. **How** (tests / verification)
+* Tag reviewers according to `.github/CODEOWNERS`.
+
+## 4 · Review Severity Threshold
+Use the `comment_severity_threshold` value from `.ai/openai/config.yaml`
+(default `MEDIUM`). Only post review comments at or above that level.
+
+## 5 · Secrets & PII
+Never output, log, or commit any credential, token, password, or customer data.
+Mask examples: `sk-********`.
+
+## 6 · Uncertainty Policy
+If confidence < 80 % **or** requirements are ambiguous, ask one clear
+follow-up question instead of guessing.
+
+## 7 · Testing Requirements
+* New or modified code **must** come with unit tests in `tests/`.
+* Use `pytest` + `pytest-cov`; target ≥ 90 % coverage for touched files.
+
+## 8 · Fun Flag
+Check `.ai/openai/config.yaml → have_fun`.  
+If `false`, omit poems, jokes, emojis, or other playful content.
+
+---
+
+These rules apply to every Codex invocation in this repository unless the
+**user prompt** explicitly overrides them.
