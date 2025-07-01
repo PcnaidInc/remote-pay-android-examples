@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # ───────── Gradle buildSrc / build.gradle(.kts) ─────────
+  - package-ecosystem: "gradle"
+    directory: "/"                 # root gradle project
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "com.android.tools.build:gradle"
+        update-types: ["version-update:semver-major"]  # avoid surprise AGP jumps
+
+  # ───────── GitHub Actions workflow dependencies ─────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
