@@ -1,1 +1,62 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: RepoConfig
+description: Configuration for Gemini Code Assist on a repository.
+type: object
+additionalProperties: false
 
+properties:
+  config_version:
+    type: integer
+    description: Schema version for forward-compat checks.
+    default: 1
+
+  have_fun:
+    type: boolean
+    description: Enables fun features such as a poem in the initial pull-request summary.
+    default: true
+
+  ignore_patterns:
+    type: array
+    items:
+      type: string
+    description: Glob patterns (gitignore syntax) Gemini should skip.
+    default: []
+
+  code_review:
+    type: object
+    description: Configuration for code reviews.
+    properties:
+      disable:
+        type: boolean
+        description: Disable Gemini on pull requests.
+        default: false
+
+      comment_severity_threshold:
+        type: string
+        enum: [LOW, MEDIUM, HIGH, CRITICAL]
+        default: MEDIUM
+
+      max_review_comments:
+        type: integer
+        minimum: -1
+        description: Maximum review comments; -1 == unlimited.
+        default: -1
+
+      pull_request_opened:
+        type: object
+        description: Behaviour when a PR is opened.
+        properties:
+          help:
+            type: boolean
+            description: Post a usage help comment.
+            default: false
+          summary:
+            type: boolean
+            description: Post a PR summary.
+            default: true
+          code_review:
+            type: boolean
+            description: Run code review.
+            default: true
+        additionalProperties: false
+    additionalProperties: false
